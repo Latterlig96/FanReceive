@@ -6,13 +6,13 @@ from bid.models import Bid, CustomerBid
 
 def create_customer_fixture():
     correct_case = {
-            "first_name": "TestName",
-            "last_name": "TestSurname",
-            "username": "TestUsername",
-            "email": "testuser@gmail.com",
-            "age": 20,
-            "city": "Cracow",
-            "password": "TestPassword123"
+        "first_name": "TestName",
+        "last_name": "TestSurname",
+        "username": "TestUsername",
+        "email": "testuser@gmail.com",
+        "age": 20,
+        "city": "Cracow",
+        "password": "TestPassword123"
         }
     customer = Customer.objects.create_user(**correct_case)
     customer.is_active = True

@@ -6,7 +6,6 @@ from api.serializers import CustomerSerializer
 from api.views import CustomerRegisterAPIView
 from api.test.testconf import (create_jwt_hook, 
                                create_bid_fixture, 
-                               create_bid_fixture,
                                create_customer_bid_fixture_with_access_token)
 
 

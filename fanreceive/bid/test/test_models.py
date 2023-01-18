@@ -70,5 +70,3 @@ class TestCustomerBid(TestCase):
         match.save()
         win_amount = customer_bid.calculate_money_obtained_from_bid()
         assert win_amount == expected_win_amount
-
-    
