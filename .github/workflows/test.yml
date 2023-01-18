@@ -32,16 +32,16 @@ jobs:
       - name: Install coverage
         run: pip install coverage
 
-      - name: Django Coverage accounts tests
+      - name: Django Coverage api tests
         run: coverage run --data-file=coverage.xml fanreceive/manage.py test api 
 
-      - name: Django Coverage app tests
+      - name: Django Coverage bid tests
         run: coverage run --data-file=coverage.xml fanreceive/manage.py test bid
       
-      - name: Django Coverage chat tests
+      - name: Django Coverage matches tests
         run: coverage run --data-file=coverage.xml fanreceive/manage.py test matches
       
-      - name: Django Coverage order tests
+      - name: Django Coverage users tests
         run: coverage run --data-file=coverage.xml fanreceive/manage.py test users
 
       - name: Upload Coverage Artifact
