@@ -1,3 +1,5 @@
+[![lint](https://github.com/Latterlig96/FanReceive/actions/workflows/lint.yml/badge.svg)](https://github.com/Latterlig96/FanReceive/actions/workflows/lint.yml)
+[![test](https://github.com/Latterlig96/FanReceive/actions/workflows/test.yml/badge.svg)](https://github.com/Latterlig96/FanReceive/actions/workflows/test.yml)
 # FanReceive
 
 Simple project that was build mostly for interview process for FanServ company (They serve and we receive :D).
