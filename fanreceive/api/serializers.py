@@ -1,8 +1,8 @@
+import datetime
 from rest_framework import serializers
 from users.models import Customer, Activities
 from matches.models import Match
 from bid.models import CustomerBid, Bid
-from django.contrib.auth.hashers import make_password
 from rest_framework.exceptions import ValidationError
 
 
@@ -111,6 +111,8 @@ class CustomerBidSerializer(serializers.ModelSerializer):
             raise ValidationError("You can't bid two times on the same match")
         if data["money_amount"] == 0:
             raise ValidationError("You can't bet on match without money")
+        if Bid.objects.select_related("match").get(pk=data["bid"].pk).match.match_schedule.date() < datetime.date.today():
+            raise ValidationError("You can't bid on matches that happened in the past")
         return data
 
     def create(self, validated_data):

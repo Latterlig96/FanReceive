@@ -27,8 +27,12 @@ class Customer(AbstractUser):
                               unique=True, 
                               db_index=True, 
                               validators=[EmailValidator(message=_EMAIL_INCORRECT_MESSAGE)])
-    age = models.PositiveIntegerField(validators=[MinValueValidator(limit_value=18)])
-    city = models.CharField(max_length=100, blank=True, null=True)
+    age = models.PositiveIntegerField(null=False, 
+                                      blank=False, 
+                                      validators=[MinValueValidator(limit_value=18)])
+    city = models.CharField(max_length=100, 
+                            blank=True, 
+                            null=True)
     password = models.CharField(max_length=100, 
                                 validators=[MinLengthValidator(limit_value=10)])
     date_joined = models.DateTimeField(auto_now_add=True)

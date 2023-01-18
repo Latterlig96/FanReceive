@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 
 from django.db import models
@@ -38,6 +39,12 @@ class Match(models.Model):
         return "Match: %s" %(self.title)
 
     def save(self, *args, **kwargs):
-        if self.match_schedule.date() < date.today():
+        if isinstance(self.match_schedule, date):
+            match_schedule = datetime.datetime(year=self.match_schedule.year,
+                                               month=self.match_schedule.month,
+                                               day=self.match_schedule.day)
+        else:
+            match_schedule = self.match_schedule
+        if match_schedule.date() < date.today():
             raise ValidationError("Match schedule cannot be less than today's date")
         return super().save(*args, **kwargs)

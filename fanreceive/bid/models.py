@@ -42,7 +42,7 @@ class CustomerBid(models.Model):
         match_result = [int(result) for result in bid_match.match_result.split(":")]
         course = [Decimal(float(course)) for course in self.bid.course.split("v")]
         match_result = 0 if match_result[0] > match_result[1] else 1
-        if match_result == self.winner:
+        if match_result == int(self.winner):
             return course[match_result] * self.money_amount
         return 0 
 
