@@ -1,6 +1,5 @@
 from django.db import models
 
-from django.db import models
 from django.core.validators import EmailValidator, MinValueValidator, MinLengthValidator
 from django.contrib.auth.models import AbstractUser
 
@@ -35,7 +34,6 @@ class Customer(AbstractUser):
                             null=True)
     password = models.CharField(max_length=100, 
                                 validators=[MinLengthValidator(limit_value=10)])
-    date_joined = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return "Customer %s %s" %(self.first_name, self.last_name)

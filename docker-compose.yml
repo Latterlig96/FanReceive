@@ -1,0 +1,77 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:14
+    ports:
+      - 5535:5535
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    command: -p 5535
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h db -p 5535"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dev
+
+  redis:
+    image: redis:latest
+    expose:
+     - "6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+    restart: always
+    networks:
+      - dev
+
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate --run-syncdb &&
+                    python manage.py createsuperuser --noinput &&
+                    python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    networks:
+      - dev
+    depends_on:
+      - db
+      - redis
+
+  celery: 
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    command: celery -A fanreceive worker -l info
+    depends_on: 
+      - redis
+      - backend
+    networks:
+      - dev
+
+  celery-beat:
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    command: celery -A fanreceive beat -l info
+    depends_on: 
+      - redis
+      - web
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  db_data:

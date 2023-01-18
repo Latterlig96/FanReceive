@@ -1,3 +1,4 @@
+import datetime
 from django.test import TestCase
 from users.forms import CustomerForm
 
@@ -12,11 +13,13 @@ class TestCustomer(TestCase):
             "email": "testuser@gmail.com",
             "age": 20,
             "city": "Cracow",
-            "password": "TestPassword123"
+            "password": "TestPassword123",
+            "date_joined": datetime.datetime.now()
         }
     
     def test_customer_form_create(self):
         customer = CustomerForm(data=self.correct_case)
+        print(customer.errors)
         assert customer.is_valid()
     
     def test_fail_customer_form_without_username(self):
