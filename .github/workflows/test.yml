@@ -27,7 +27,7 @@ jobs:
         run: | 
              mkdir fanreceive/db && \
              python fanreceive/manage.py makemigrations && \
-             python fanreceive/manage.py migrate --run-syncdb
+             python fanreceive/manage.py migrate --database test --run-syncdb
 
       - name: Install coverage
         run: pip install coverage
