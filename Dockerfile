@@ -11,10 +11,7 @@ RUN apt-get update && \
 WORKDIR app/
 
 COPY requirements.txt .
-COPY prepare.sh .
 
 RUN pip install -r requirements.txt
 
 COPY fanreceive/ .
-
-ENTRYPOINT ["/bin/sh", "prepare.sh"]
