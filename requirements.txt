@@ -4,3 +4,4 @@ djangorestframework-simplejwt==5.2.2
 Pillow==9.4.0
 celery[redis]==5.2.7
 psycopg2-binary==2.9.5
+gunicorn

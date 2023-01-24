@@ -1,3 +1,11 @@
 LICENSE
 README.md
 Pipfile.lock
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+.git
+
+.gitignore

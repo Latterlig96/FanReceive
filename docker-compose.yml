@@ -36,10 +36,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    command: sh -c "python manage.py makemigrations &&
-                    python manage.py migrate --run-syncdb &&
-                    python manage.py createsuperuser --noinput --username admin --first_name user --last_name testuser --age 20 --email testuser@gmail.com --password testpassword &&
-                    python manage.py runserver 0.0.0.0:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - 8000:8000
     networks:
@@ -52,10 +49,10 @@ services:
     build:
       context: . 
       dockerfile: Dockerfile
-    command: celery -A fanreceive worker -l info
+    entrypoint: celery -A fanreceive worker -l info
     depends_on: 
       - redis
-      - backend
+      - web
     networks:
       - dev
 
@@ -63,7 +60,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile 
-    command: celery -A fanreceive beat -l info
+    entrypoint: celery -A fanreceive beat -l info
     depends_on: 
       - redis
       - web
