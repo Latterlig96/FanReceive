@@ -52,7 +52,7 @@ services:
     entrypoint: celery -A fanreceive worker -l info
     depends_on: 
       - redis
-      - backend
+      - web
     networks:
       - dev
 
