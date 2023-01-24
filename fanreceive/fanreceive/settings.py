@@ -30,7 +30,7 @@ SECRET_KEY = get_random_string(length=100)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS", "*")]
 
 
 AUTH_USER_MODEL = "users.Customer"
@@ -86,20 +86,36 @@ WSGI_APPLICATION = "fanreceive.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "postgres",
-        'USER': "postgres",
-        'PASSWORD': "postgres",
-        'HOST': "db",
-        'PORT': 5535,
-    },
-    'test': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test.sqlite'
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ["RDS_DB_NAME"],
+            'USER': os.environ["RDS_DB_USER"],
+            'PASSWORD': os.environ["RDS_DB_PASSWORD"],
+            'HOST': os.environ["RDS_HOSTNAME"],
+            'PORT': os.environ["RDS_PORT"],
+        },
+        'test': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'test.sqlite'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': "postgres",
+            'USER': "postgres",
+            'PASSWORD': "postgres",
+            'HOST': "db",
+            'PORT': 5535,
+        },
+        'test': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'test.sqlite'
+        }
+    }
 
 if 'test' in sys.argv:
     DATABASES["default"] = DATABASES["test"]

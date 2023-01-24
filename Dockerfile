@@ -11,7 +11,14 @@ RUN apt-get update && \
 WORKDIR app/
 
 COPY requirements.txt .
+COPY entrypoint.sh .
+
+RUN chmod +x entrypoint.sh
 
 RUN pip install -r requirements.txt
 
+EXPOSE 8000
+
 COPY fanreceive/ .
+
+ENTRYPOINT ["/bin/sh", "entrypoint.sh"]
