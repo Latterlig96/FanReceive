@@ -1,31 +1,32 @@
+name: deployment
+
 on:
-  push:
-    branches:
-      - "*"
-  pull_request:
-    branches:
-      - "*"
+  workflow_run:
+    workflows: ["test"]
+    branches: "*"
+    types: 
+      - completed
 
 jobs:
-  deploy:
-    needs: [test]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v3
+    beanstalk-deployment:
+      needs: [test]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout source code
+          uses: actions/checkout@v3
 
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
-      
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v20
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        - name: Generate deployment package
+          run: zip -r deploy.zip . -x '*.git*'
+        
+        - name: Deploy to EB
+          uses: einaregilsson/beanstalk-deploy@v20
+          with:
+            aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-          application_name: FanServ
-          environment_name: Fanserv-env
-          
-          version_label: 1
-          region: "us-east-1"
-          deployment_package: deploy.zip
+            application_name: FanServ
+            environment_name: Fanserv-env
+            
+            version_label: 1
+            region: "us-east-1"
+            deployment_package: deploy.zip
