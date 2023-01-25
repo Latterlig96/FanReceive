@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - "*"
-    
+
 jobs:
   ebdeploy:
-    runs_on: ubuntu-latest
+    needs: [test]
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
