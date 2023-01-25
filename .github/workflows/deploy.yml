@@ -1,15 +1,15 @@
 name: deployment
 
 on:
-  workflow_run:
-    workflows: ["test"]
-    branches: "*"
-    types: 
-      - completed
-
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+  
 jobs:
     beanstalk-deployment:
-      needs: [test]
       runs-on: ubuntu-latest
       steps:
         - name: Checkout source code
