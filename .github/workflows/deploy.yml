@@ -24,6 +24,6 @@ jobs:
             application_name: FanServ
             environment_name: Fanserv-env
             
-            version_label: ${{env.GITHUB_RUN_ID}}
+            version_label: FanReceive-${{ github.run_id }}-${{ github.run_attempt }}
             region: "us-east-1"
             deployment_package: deploy.zip
