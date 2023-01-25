@@ -3,11 +3,8 @@ name: deployment
 on:
   push:
     branches:
-      - "*"
-  pull_request:
-    branches:
-      - "*"
-  
+      - "main"
+
 jobs:
     beanstalk-deployment:
       runs-on: ubuntu-latest
