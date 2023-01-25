@@ -24,6 +24,6 @@ jobs:
             application_name: FanServ
             environment_name: Fanserv-env
             
-            version_label: 1
+            version_label: ${{env.GITHUB_RUN_ID}}
             region: "us-east-1"
             deployment_package: deploy.zip
