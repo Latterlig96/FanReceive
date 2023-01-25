@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'ebhealthcheck.apps.EBHealthCheckConfig',
     "rest_framework",
     "rest_framework_simplejwt",
+    "corsheaders",
     "users.apps.UsersConfig",
     "matches.apps.MatchesConfig",
     "bid.apps.BidConfig",
@@ -55,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -136,11 +139,19 @@ SIMPLE_JWT = {
     'SIGNING_KEY': SECRET_KEY,
 }
 
+# CORS
+
+CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS", "http://localhost:3000").split(" ")
 
 # CELERY
 
-CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+if "ELASTICACHE_URL_BACKEND" in os.environ:
+    CELERY_BROKER_URL = os.environ["ELASTICACHE_URL_BACKEND"]
+    CELERY_RESULT_BACKEND = os.environ["ELASTICACHE_URL_RESULT_BACKEND"]
+else:
+    CELERY_BROKER_URL = "redis://redis:6379"
+    CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+
 CELERY_TIMEZONE = "Europe/Warsaw"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -181,6 +192,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
